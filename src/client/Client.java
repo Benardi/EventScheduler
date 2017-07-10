@@ -1,4 +1,4 @@
-package event;
+package client;
 
 import java.util.UUID;
 
@@ -22,6 +22,11 @@ public class Client {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public String toString() {
+		return "Client [group=" + group + ", name=" + name + "]";
 	}
 
 
