@@ -10,31 +10,31 @@ import util.ProbabilityManager;
 
 public class Scheduler {
 
-	private HashMap<Integer, List<EventTypes>> timeLine;
 	private ProbabilityManager randomizer;
 	private List<Customer> queue1;
 	private List<Customer> queue2;
 	private boolean isServerFree;
+	private Customer sendoAtendido;
 
 	public Scheduler(HashMap<Integer, List<EventTypes>> timeLine) {
-		this.timeLine = timeLine;
 		this.randomizer = new ProbabilityManager();
 		this.queue1 = new ArrayList<Customer>();
 		this.queue2 = new ArrayList<Customer>();
+		this.isServerFree = true;
 		enqueueCustomer(new Customer(CustomerClasses.Class1));
 		enqueueCustomer(new Customer(CustomerClasses.Class2));
 
 	}
 
-	private void scheduleEvent(int timeOfEvent, EventTypes event) {
-		List<EventTypes> timeState = this.timeLine.get(timeOfEvent);
+	public void scheduleEvent(int timeOfEvent, EventTypes event, HashMap<Integer, List<EventTypes>> timeLine) {
+		List<EventTypes> timeState = timeLine.get(timeOfEvent);
 		if (timeState != null) {
 			timeState.add(event);
-			this.timeLine.put(timeOfEvent, timeState);
+			timeLine.put(timeOfEvent, timeState);
 		} else {
 			timeState = new ArrayList<EventTypes>();
 			timeState.add(event);
-			this.timeLine.put(timeOfEvent, timeState);
+			timeLine.put(timeOfEvent, timeState);
 		}
 
 	}
@@ -53,12 +53,17 @@ public class Scheduler {
 		}
 	}
 
-	private void dequeueCustomer(CustomerClasses type) {
+	private Customer dequeueCustomer(CustomerClasses type) {
+		Customer removed = null;
 		if (type == CustomerClasses.Class1) {
+			removed = this.queue1.get(0);
 			this.queue1.remove(0);
 		} else if (type == CustomerClasses.Class2) {
+			removed = this.queue2.get(0);
 			this.queue2.remove(0);
 		}
+		
+		return removed;
 
 	}
 
@@ -78,43 +83,47 @@ public class Scheduler {
 		return this.queue2.isEmpty();
 	}
 
-	public void ClientGroup1Influx(int currentTime) {
-		scheduleEvent(predictTimeOfEvent(currentTime, 1, 10), EventTypes.ClIENT_GROUP1_INFLUX);
+	public void ClientGroup1Influx(int currentTime, HashMap<Integer, List<EventTypes>> timeLine) {
+		Customer customer = new Customer(CustomerClasses.Class1);
+		scheduleEvent(predictTimeOfEvent(currentTime, 1, 10), EventTypes.ClIENT_GROUP1_INFLUX, timeLine);
 
 		if (this.isServerFree) {
 			this.setServerFree(false);
-			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION);
+			this.sendoAtendido = customer;
+			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION, timeLine);
 		} else {
-			enqueueCustomer(new Customer(CustomerClasses.Class1));
+			enqueueCustomer(customer);
 		}
 
 	}
 
-	public void ClientGroup2Influx(int currentTime) {
-
-		scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.ClIENT_GROUP1_INFLUX);
+	public void ClientGroup2Influx(int currentTime, HashMap<Integer, List<EventTypes>> timeLine) {
+		Customer customer = new Customer(CustomerClasses.Class2);
+		scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.ClIENT_GROUP1_INFLUX, timeLine);
 
 		if (this.isServerFree) {
 			this.setServerFree(false);
-			scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.SERVICE_TERMINATION);
+			scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.SERVICE_TERMINATION, timeLine);
 		} else {
-			enqueueCustomer(new Customer(CustomerClasses.Class2));
+			enqueueCustomer(customer);
 		}
 
 	}
 
-	public void terminateService(int currentTime) {
+	public void terminateService(int currentTime, HashMap<Integer, List<EventTypes>> timeLine) {
 		if (isQueue1Free()) {
 			if (isQueue2Free()) {
 				setServerFree(true);
 			} else {
-				dequeueCustomer(CustomerClasses.Class2);
-				scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION);
+				Customer removed = dequeueCustomer(CustomerClasses.Class2);
+				System.out.println("Elemento no Servico: " + removed.toString());
+				scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION, timeLine);
 			}
 
 		} else {
-			dequeueCustomer(CustomerClasses.Class1);
-			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION);
+			Customer removed = dequeueCustomer(CustomerClasses.Class1);
+			System.out.println("Elemento no Servico: " + removed.toString());
+			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION, timeLine);
 
 		}
 	}
@@ -124,17 +133,17 @@ public class Scheduler {
 		System.out.println("Elementos na Fila 2: " + this.queue2.toString());
 	}
 
-	public static void main(String[] args) {
-		Scheduler sch = new Scheduler(new HashMap<Integer, List<EventTypes>>());
-		sch.generatesOutput();
-		sch.ClientGroup2Influx(0);
-		sch.ClientGroup2Influx(1);
-		sch.generatesOutput();
-		sch.terminateService(2);
-		sch.terminateService(3);
-		sch.terminateService(4);
-		sch.terminateService(5);
-		sch.generatesOutput();
-	}
+//	public static void main(String[] args) {
+//		Scheduler sch = new Scheduler(new HashMap<Integer, List<EventTypes>>());
+//		sch.generatesOutput();
+//		sch.ClientGroup2Influx(0);
+//		sch.ClientGroup2Influx(1);
+//		sch.generatesOutput();
+//		sch.terminateService(2);
+//		sch.terminateService(3);
+//		sch.terminateService(4);
+//		sch.terminateService(5);
+//		sch.generatesOutput();
+//	}
 
 }
