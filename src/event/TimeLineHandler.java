@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-
 public class TimeLineHandler {
 	private HashMap<Integer, List<EventTypes>> timeLine;
 	private Scheduler eventHandler;
@@ -23,8 +22,8 @@ public class TimeLineHandler {
 		this.maxRuns = maxRuns;
 		initializeModel();
 	}
-	
-	private void initializeModel(){
+
+	private void initializeModel() {
 		this.eventHandler.scheduleEvent(0, EventTypes.ClIENT_GROUP1_INFLUX, this.timeLine);
 		this.eventHandler.scheduleEvent(0, EventTypes.ClIENT_GROUP2_INFLUX, this.timeLine);
 	}
@@ -46,18 +45,23 @@ public class TimeLineHandler {
 
 	private void executeEvent(EventTypes event, int currentTime) {
 		System.out.println();
-		
+
 		if (event == EventTypes.ClIENT_GROUP1_INFLUX) {
 			eventHandler.ClientGroup1Influx(currentTime, this.timeLine);
 			this.stampsState("Chegada", currentTime);
 		} else if (event == EventTypes.ClIENT_GROUP2_INFLUX) {
 			eventHandler.ClientGroup2Influx(currentTime, this.timeLine);
 			this.stampsState("Chegada", currentTime);
-		} else if (event == EventTypes.SERVICE_TERMINATION){
+		} else if (event == EventTypes.SERVICE_TERMINATION) {
 			eventHandler.terminateService(currentTime, this.timeLine);
 			this.stampsState("Saida", currentTime);
 		}
-		
+
+		if (this.eventHandler.getSendoAtendido() != null) {
+			System.out.println("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString());
+		} else {
+			System.out.println("Elemento no servico: - ");
+		}
 
 	}
 
@@ -71,14 +75,14 @@ public class TimeLineHandler {
 		int state = 0;
 		while (state < this.maxRuns) {
 			this.executesStateOfTime(state);
-			state ++;
+			state++;
 
 		}
 
 	}
 
 	public static void main(String[] args) {
-		TimeLineHandler th = new TimeLineHandler(20);
+		TimeLineHandler th = new TimeLineHandler(50);
 		th.simulates();
 	}
 
