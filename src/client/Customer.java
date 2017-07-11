@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class Customer {
 	private CustomerClasses group;
-	private String name; 
-	
+	private String name;
+
 	public Customer(CustomerClasses group) {
 		this.group = group;
 		this.name = UUID.randomUUID().toString().split("-")[0];
@@ -28,6 +28,5 @@ public class Customer {
 	public String toString() {
 		return "(" + name + ", " + group + ")";
 	}
-
 
 }

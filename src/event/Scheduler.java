@@ -10,14 +10,14 @@ import util.ProbabilityManager;
 
 public class Scheduler {
 
-	private HashMap<Integer, EventTypes> timeLine;
+	private HashMap<Integer, List<EventTypes>> timeLine;
 	private ProbabilityManager randomizer;
 	private List<Customer> queue1;
 	private List<Customer> queue2;
 	private boolean isServerFree;
 
-	public Scheduler() {
-		this.timeLine = new HashMap<Integer, EventTypes>();
+	public Scheduler(HashMap<Integer, List<EventTypes>> timeLine) {
+		this.timeLine = timeLine;
 		this.randomizer = new ProbabilityManager();
 		this.queue1 = new ArrayList<Customer>();
 		this.queue2 = new ArrayList<Customer>();
@@ -27,7 +27,15 @@ public class Scheduler {
 	}
 
 	private void scheduleEvent(int timeOfEvent, EventTypes event) {
-		this.timeLine.put(timeOfEvent, event);
+		List<EventTypes> timeState = this.timeLine.get(timeOfEvent);
+		if (timeState != null) {
+			timeState.add(event);
+			this.timeLine.put(timeOfEvent, timeState);
+		} else {
+			timeState = new ArrayList<EventTypes>();
+			timeState.add(event);
+			this.timeLine.put(timeOfEvent, timeState);
+		}
 
 	}
 
@@ -110,14 +118,14 @@ public class Scheduler {
 
 		}
 	}
-	
-	public void generatesOutput(){
+
+	public void generatesOutput() {
 		System.out.println("Elementos na Fila 1: " + this.queue1.toString());
 		System.out.println("Elementos na Fila 2: " + this.queue2.toString());
 	}
-	
+
 	public static void main(String[] args) {
-		Scheduler sch = new Scheduler();
+		Scheduler sch = new Scheduler(new HashMap<Integer, List<EventTypes>>());
 		sch.generatesOutput();
 		sch.ClientGroup2Influx(0);
 		sch.ClientGroup2Influx(1);
