@@ -100,12 +100,12 @@ public class Scheduler {
 
 	public void ClientGroup2Influx(int currentTime, HashMap<Integer, List<EventTypes>> timeLine) {
 		Customer customer = new Customer(CustomerClasses.Class2);
-		scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.ClIENT_GROUP1_INFLUX, timeLine);
+		scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.ClIENT_GROUP2_INFLUX, timeLine);
 		
 		if (isServerFree) {
 			this.setServerFree(false);
 			sendoAtendido = customer;
-			scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.SERVICE_TERMINATION, timeLine);
+			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION, timeLine);
 		} else {
 			enqueueCustomer(customer);
 		}
