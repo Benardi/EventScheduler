@@ -2,21 +2,21 @@ package client;
 
 import java.util.UUID;
 
-public class Client {
-	private ClientClasses group;
+public class Customer {
+	private CustomerClasses group;
 	private String name; 
 	
-	public Client(ClientClasses group) {
+	public Customer(CustomerClasses group) {
 		this.group = group;
 		this.name = UUID.randomUUID().toString().split("-")[0];
 
 	}
 
-	public ClientClasses getGroup() {
+	public CustomerClasses getGroup() {
 		return group;
 	}
 
-	public void setGroup(ClientClasses group) {
+	public void setGroup(CustomerClasses group) {
 		this.group = group;
 	}
 
@@ -26,7 +26,7 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client [group=" + group + ", name=" + name + "]";
+		return "(" + name + ", " + group + ")";
 	}
 
 

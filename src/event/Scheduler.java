@@ -2,28 +2,30 @@ package event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.List;
 
-import client.Client;
-import client.ClientClasses;
+import client.Customer;
+import client.CustomerClasses;
 import util.ProbabilityManager;
 
 public class Scheduler {
 
 	private HashMap<Integer, EventTypes> timeLine;
 	private ProbabilityManager randomizer;
-	private ArrayList<Client> queue1;
-	private ArrayList<Client> queue2;
+	private List<Customer> queue1;
+	private List<Customer> queue2;
 	private boolean isServerFree;
 
 	public Scheduler() {
 		this.timeLine = new HashMap<Integer, EventTypes>();
 		this.randomizer = new ProbabilityManager();
-		enqueueCustomer(new Client(ClientClasses.Class1));
-		enqueueCustomer(new Client(ClientClasses.Class2));
+		this.queue1 = new ArrayList<Customer>();
+		this.queue2 = new ArrayList<Customer>();
+		enqueueCustomer(new Customer(CustomerClasses.Class1));
+		enqueueCustomer(new Customer(CustomerClasses.Class2));
 
 	}
-	
+
 	private void scheduleEvent(int timeOfEvent, EventTypes event) {
 		this.timeLine.put(timeOfEvent, event);
 
@@ -35,18 +37,18 @@ public class Scheduler {
 
 	}
 
-	private void enqueueCustomer(Client customer) {
-		if (customer.getGroup() == ClientClasses.Class1) {
+	private void enqueueCustomer(Customer customer) {
+		if (customer.getGroup() == CustomerClasses.Class1) {
 			this.queue1.add(customer);
-		} else if (customer.getGroup() == ClientClasses.Class2) {
+		} else if (customer.getGroup() == CustomerClasses.Class2) {
 			this.queue2.add(customer);
 		}
 	}
 
-	private void dequeueCustomer(ClientClasses type) {
-		if (type == ClientClasses.Class1) {
+	private void dequeueCustomer(CustomerClasses type) {
+		if (type == CustomerClasses.Class1) {
 			this.queue1.remove(0);
-		} else if (type == ClientClasses.Class2) {
+		} else if (type == CustomerClasses.Class2) {
 			this.queue2.remove(0);
 		}
 
@@ -68,8 +70,6 @@ public class Scheduler {
 		return this.queue2.isEmpty();
 	}
 
-	
-
 	public void ClientGroup1Influx(int currentTime) {
 		scheduleEvent(predictTimeOfEvent(currentTime, 1, 10), EventTypes.ClIENT_GROUP1_INFLUX);
 
@@ -77,7 +77,7 @@ public class Scheduler {
 			this.setServerFree(false);
 			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION);
 		} else {
-			enqueueCustomer(new Client(ClientClasses.Class1));
+			enqueueCustomer(new Customer(CustomerClasses.Class1));
 		}
 
 	}
@@ -90,7 +90,7 @@ public class Scheduler {
 			this.setServerFree(false);
 			scheduleEvent(predictTimeOfEvent(currentTime, 1, 5), EventTypes.SERVICE_TERMINATION);
 		} else {
-			enqueueCustomer(new Client(ClientClasses.Class2));
+			enqueueCustomer(new Customer(CustomerClasses.Class2));
 		}
 
 	}
@@ -100,15 +100,33 @@ public class Scheduler {
 			if (isQueue2Free()) {
 				setServerFree(true);
 			} else {
-				dequeueCustomer(ClientClasses.Class2);
+				dequeueCustomer(CustomerClasses.Class2);
 				scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION);
 			}
 
 		} else {
-			dequeueCustomer(ClientClasses.Class1);
+			dequeueCustomer(CustomerClasses.Class1);
 			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION);
 
 		}
+	}
+	
+	public void generatesOutput(){
+		System.out.println("Elementos na Fila 1: " + this.queue1.toString());
+		System.out.println("Elementos na Fila 2: " + this.queue2.toString());
+	}
+	
+	public static void main(String[] args) {
+		Scheduler sch = new Scheduler();
+		sch.generatesOutput();
+		sch.ClientGroup2Influx(0);
+		sch.ClientGroup2Influx(1);
+		sch.generatesOutput();
+		sch.terminateService(2);
+		sch.terminateService(3);
+		sch.terminateService(4);
+		sch.terminateService(5);
+		sch.generatesOutput();
 	}
 
 }

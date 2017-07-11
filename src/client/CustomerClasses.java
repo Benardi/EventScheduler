@@ -1,5 +1,5 @@
 package client;
 
-public enum ClientClasses {
+public enum CustomerClasses {
 	Class1, Class2
 }
