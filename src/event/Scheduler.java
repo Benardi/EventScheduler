@@ -119,14 +119,14 @@ public class Scheduler {
 			} else {
 				Customer removed = dequeueCustomer(CustomerClasses.Class2);
 				scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION, timeLine);
-				sendoAtendido = this.queue2.get(0);
+				sendoAtendido = removed;
 
 			}
 
 		} else {
 			Customer removed = dequeueCustomer(CustomerClasses.Class1);
 			scheduleEvent(predictTimeOfEvent(currentTime, 3, 7), EventTypes.SERVICE_TERMINATION, timeLine);
-			sendoAtendido = this.queue1.get(0);
+			sendoAtendido = removed;
 		}
 
 	}
