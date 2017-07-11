@@ -45,6 +45,8 @@ public class TimeLineHandler {
 	}
 
 	private void executeEvent(EventTypes event, int currentTime) {
+		System.out.println();
+		
 		if (event == EventTypes.ClIENT_GROUP1_INFLUX) {
 			eventHandler.ClientGroup1Influx(currentTime, this.timeLine);
 			this.stampsState("Chegada", currentTime);
