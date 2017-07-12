@@ -143,17 +143,4 @@ public class Scheduler {
 		
 	}
 
-	// public static void main(String[] args) {
-	// Scheduler sch = new Scheduler(new HashMap<Integer, List<EventTypes>>());
-	// sch.generatesOutput();
-	// sch.ClientGroup2Influx(0);
-	// sch.ClientGroup2Influx(1);
-	// sch.generatesOutput();
-	// sch.terminateService(2);
-	// sch.terminateService(3);
-	// sch.terminateService(4);
-	// sch.terminateService(5);
-	// sch.generatesOutput();
-	// }
-
 }

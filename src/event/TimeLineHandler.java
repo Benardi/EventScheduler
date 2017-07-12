@@ -60,9 +60,9 @@ public class TimeLineHandler {
 
 		if (this.eventHandler.getSendoAtendido() != null) {
 			OutputManager.getInstance()
-					.generatesOutput("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString());
+					.generatesOutput("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString()+ "\n");
 		} else {
-			OutputManager.getInstance().generatesOutput("Elemento no servico: - ");
+			OutputManager.getInstance().generatesOutput("Elemento no servico: - \n");
 		}
 
 	}
@@ -86,6 +86,7 @@ public class TimeLineHandler {
 	public static void main(String[] args) {
 		TimeLineHandler th = new TimeLineHandler(50);
 		th.simulates();
+		OutputManager.getInstance().logData("SimulationResults.txt");
 	}
 
 }
