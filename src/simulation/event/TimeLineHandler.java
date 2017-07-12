@@ -49,6 +49,12 @@ public class TimeLineHandler {
 			this.stampsState("Saida", currentTime);
 		}
 
+		stampsCurrentCostumer();
+
+	}
+
+	private void stampsCurrentCostumer() {
+
 		if (this.eventHandler.getSendoAtendido() != null) {
 			OutputManager.getInstance()
 					.generatesOutput("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString());
@@ -60,7 +66,7 @@ public class TimeLineHandler {
 
 	}
 
-	public void stampsState(String event, int state) {
+	private void stampsState(String event, int state) {
 		OutputManager.getInstance().generatesOutput("Tipo de evento: " + event + ", Momento do evento: " + state);
 		eventHandler.generatesOutput();
 
