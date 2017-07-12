@@ -8,11 +8,11 @@ import simulation.util.OutputManager;
 
 public class TimeLineHandler {
 	private HashMap<Integer, List<EventTypes>> timeLine;
-	private Scheduler eventHandler;
+	private QueueProcessor eventHandler;
 
 	public TimeLineHandler() {
 		this.timeLine = new HashMap<Integer, List<EventTypes>>();
-		this.eventHandler = new Scheduler(this.timeLine);
+		this.eventHandler = new QueueProcessor(this.timeLine);
 		initializeModel();
 	}
 

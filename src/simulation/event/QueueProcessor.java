@@ -9,7 +9,7 @@ import simulation.client.CustomerClasses;
 import simulation.util.OutputManager;
 import simulation.util.ProbabilityManager;
 
-public class Scheduler {
+public class QueueProcessor {
 
 	private ProbabilityManager randomizer;
 	private List<Customer> queue1;
@@ -17,7 +17,7 @@ public class Scheduler {
 	private boolean isServerFree;
 	private Customer sendoAtendido;
 
-	public Scheduler(HashMap<Integer, List<EventTypes>> timeLine) {
+	public QueueProcessor(HashMap<Integer, List<EventTypes>> timeLine) {
 		this.randomizer = new ProbabilityManager();
 		this.queue1 = new ArrayList<Customer>();
 		this.queue2 = new ArrayList<Customer>();
