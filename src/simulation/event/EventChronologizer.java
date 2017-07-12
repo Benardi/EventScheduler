@@ -6,13 +6,13 @@ import java.util.List;
 
 import simulation.util.OutputManager;
 
-public class TimeLineHandler {
+public class EventChronologizer {
 	private HashMap<Integer, List<EventTypes>> timeLine;
-	private QueueProcessor eventHandler;
+	private EventProcessor eventHandler;
 
-	public TimeLineHandler() {
+	public EventChronologizer() {
 		this.timeLine = new HashMap<Integer, List<EventTypes>>();
-		this.eventHandler = new QueueProcessor(this.timeLine);
+		this.eventHandler = new EventProcessor(this.timeLine);
 		initializeModel();
 	}
 
