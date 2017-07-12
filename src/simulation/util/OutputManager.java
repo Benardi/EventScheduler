@@ -1,13 +1,13 @@
 package simulation.util;
 
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.sql.Timestamp;
 
 public class OutputManager {
-
+	public static final String EXECUTION_HEADER = "SIMULATION START TIME: ";
 	private static OutputManager instance = null;
 	private String log;
 
@@ -27,12 +27,15 @@ public class OutputManager {
 		this.log += "\n" + outputLine;
 	}
 
-	public void logData(String filePath) {
+	public void logData(Timestamp stamp, String filePath) {
 		BufferedWriter logger = null;
 		try {
 			FileOutputStream fs = new FileOutputStream(filePath, true);
 			OutputStreamWriter ow = new OutputStreamWriter(fs);
 			logger = new BufferedWriter(ow);
+			logger.newLine();
+			logger.write(EXECUTION_HEADER + stamp.toString());
+			logger.newLine();
 			logger.write(this.log);
 			logger.newLine();
 			
