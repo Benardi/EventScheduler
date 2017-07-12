@@ -6,6 +6,7 @@ import java.util.List;
 
 import client.Customer;
 import client.CustomerClasses;
+import util.OutputManager;
 import util.ProbabilityManager;
 
 public class Scheduler {
@@ -136,8 +137,10 @@ public class Scheduler {
 	}
 
 	public void generatesOutput() {
-		System.out.println("Elementos na Fila 1: " + this.queue1.toString());
-		System.out.println("Elementos na Fila 2: " + this.queue2.toString());
+		OutputManager outMan = OutputManager.getInstance();
+		outMan.generatesOutput("Elementos na Fila 1: " + this.queue1.toString());
+		outMan.generatesOutput("Elementos na Fila 2: " + this.queue2.toString());
+		
 	}
 
 	// public static void main(String[] args) {

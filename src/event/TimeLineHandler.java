@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import util.OutputManager;
+
 public class TimeLineHandler {
 	private HashMap<Integer, List<EventTypes>> timeLine;
 	private Scheduler eventHandler;
@@ -44,7 +46,6 @@ public class TimeLineHandler {
 	}
 
 	private void executeEvent(EventTypes event, int currentTime) {
-		System.out.println();
 
 		if (event == EventTypes.ClIENT_GROUP1_INFLUX) {
 			eventHandler.ClientGroup1Influx(currentTime, this.timeLine);
@@ -58,15 +59,16 @@ public class TimeLineHandler {
 		}
 
 		if (this.eventHandler.getSendoAtendido() != null) {
-			System.out.println("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString());
+			OutputManager.getInstance()
+					.generatesOutput("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString());
 		} else {
-			System.out.println("Elemento no servico: - ");
+			OutputManager.getInstance().generatesOutput("Elemento no servico: - ");
 		}
 
 	}
 
 	public void stampsState(String event, int state) {
-		System.out.println("Tipo de evento: " + event + ", Momento do evento: " + state);
+		OutputManager.getInstance().generatesOutput("Tipo de evento: " + event + ", Momento do evento: " + state);
 		eventHandler.generatesOutput();
 
 	}
