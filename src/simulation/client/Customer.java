@@ -1,4 +1,4 @@
-package client;
+package simulation.client;
 
 import java.util.UUID;
 

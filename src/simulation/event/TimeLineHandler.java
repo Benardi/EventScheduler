@@ -1,10 +1,10 @@
-package event;
+package simulation.event;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import util.OutputManager;
+import simulation.util.OutputManager;
 
 public class TimeLineHandler {
 	private HashMap<Integer, List<EventTypes>> timeLine;

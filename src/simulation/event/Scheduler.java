@@ -1,13 +1,13 @@
-package event;
+package simulation.event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import client.Customer;
-import client.CustomerClasses;
-import util.OutputManager;
-import util.ProbabilityManager;
+import simulation.client.Customer;
+import simulation.client.CustomerClasses;
+import simulation.util.OutputManager;
+import simulation.util.ProbabilityManager;
 
 public class Scheduler {
 
