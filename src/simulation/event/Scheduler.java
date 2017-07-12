@@ -22,8 +22,6 @@ public class Scheduler {
 		this.queue1 = new ArrayList<Customer>();
 		this.queue2 = new ArrayList<Customer>();
 		this.isServerFree = true;
-		// enqueueCustomer(new Customer(CustomerClasses.Class1));
-		// enqueueCustomer(new Customer(CustomerClasses.Class2));
 
 	}
 

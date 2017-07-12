@@ -5,14 +5,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OutputManager {
 	public static final String EXECUTION_HEADER = "SIMULATION START TIME: ";
 	private static OutputManager instance = null;
-	private String log;
+	private List<String> logs;
 
 	private OutputManager() {
-		this.log = "";
+		this.logs = new ArrayList<String>();
 	}
 
 	public static OutputManager getInstance() {
@@ -24,7 +26,7 @@ public class OutputManager {
 
 	public void generatesOutput(String outputLine) {
 		System.out.print("\n" + outputLine);
-		this.log += "\n" + outputLine;
+		this.logs.add(outputLine);
 	}
 
 	public void logData(Timestamp stamp, String filePath) {
@@ -36,7 +38,10 @@ public class OutputManager {
 			logger.newLine();
 			logger.write(EXECUTION_HEADER + stamp.toString());
 			logger.newLine();
-			logger.write(this.log);
+			for(String line: logs){
+				logger.newLine();
+				logger.write(line);
+			}
 			logger.newLine();
 			
 		} catch (IOException e) {
@@ -51,8 +56,5 @@ public class OutputManager {
 		}
 	}
 
-	public static void main(String[] args) {
-		System.out.println(OutputManager.getInstance().log);
-	}
 
 }

@@ -9,19 +9,10 @@ import simulation.util.OutputManager;
 public class TimeLineHandler {
 	private HashMap<Integer, List<EventTypes>> timeLine;
 	private Scheduler eventHandler;
-	private int maxRuns;
 
 	public TimeLineHandler() {
 		this.timeLine = new HashMap<Integer, List<EventTypes>>();
 		this.eventHandler = new Scheduler(this.timeLine);
-		this.maxRuns = Integer.MAX_VALUE;
-		initializeModel();
-	}
-
-	public TimeLineHandler(int maxRuns) {
-		this.timeLine = new HashMap<Integer, List<EventTypes>>();
-		this.eventHandler = new Scheduler(this.timeLine);
-		this.maxRuns = maxRuns;
 		initializeModel();
 	}
 
@@ -60,9 +51,11 @@ public class TimeLineHandler {
 
 		if (this.eventHandler.getSendoAtendido() != null) {
 			OutputManager.getInstance()
-					.generatesOutput("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString() + "\n");
+					.generatesOutput("Elemento no servico: " + this.eventHandler.getSendoAtendido().toString());
+			OutputManager.getInstance().generatesOutput("");
 		} else {
-			OutputManager.getInstance().generatesOutput("Elemento no servico: - \n");
+			OutputManager.getInstance().generatesOutput("Elemento no servico: - ");
+			OutputManager.getInstance().generatesOutput("");
 		}
 
 	}
@@ -73,9 +66,18 @@ public class TimeLineHandler {
 
 	}
 
+	public void simulates(int maxRuns) {
+		int state = 0;
+		while (state < maxRuns) {
+			this.executesStateOfTime(state);
+			state++;
+
+		}
+	}
+
 	public void simulates() {
 		int state = 0;
-		while (state < this.maxRuns) {
+		while (true) {
 			this.executesStateOfTime(state);
 			state++;
 
