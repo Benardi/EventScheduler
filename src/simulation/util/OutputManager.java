@@ -25,7 +25,8 @@ public class OutputManager {
 	}
 
 	public void generatesOutput(String outputLine) {
-		System.out.print("\n" + outputLine);
+		// Application no longer feeds the console.
+		//System.out.print("\n" + outputLine);
 		this.logs.add(outputLine);
 	}
 

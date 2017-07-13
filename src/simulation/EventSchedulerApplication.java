@@ -11,7 +11,8 @@ public class EventSchedulerApplication {
 		
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		EventChronologizer th = new EventChronologizer();
-		th.simulates(50);
+		long exectTimeMilli = 2000;
+		th.simulates(exectTimeMilli);
 		OutputManager.getInstance().logData(timeStamp, "SimulationResults.txt");
 
 	}

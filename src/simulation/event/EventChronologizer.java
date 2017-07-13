@@ -81,9 +81,11 @@ public class EventChronologizer {
 		}
 	}
 
-	public void simulates() {
+	public void simulates(long timeMilliSecs) {
+		long execTime = System.currentTimeMillis() + timeMilliSecs;
+		
 		int state = 0;
-		while (true) {
+		while (System.currentTimeMillis() < execTime) {
 			this.executesStateOfTime(state);
 			state++;
 
